@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora MIOP</title>
+  <link rel="stylesheet" href="estilo.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <div class="app-container">
+    
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <span class="logo-text">MIOP</span>
+      </div>
+      <nav class="sidebar-nav">
+        <ul>
+          <li class="nav-item active"><a href="#"><i class="fas fa-calculator"></i> <span>Calculadora</span></a></li>
+          <li class="nav-item"><a href="#"><i class="fas fa-chart-line"></i> <span>Dashboard</span></a></li>
+          <li class="nav-item"><a href="#"><i class="fas fa-layer-group"></i> <span>Métodos</span></a></li>
+          <li class="nav-item"><a href="#"><i class="fas fa-book"></i> <span>Docs</span></a></li>
+        </ul>
+      </nav>
+      <div class="sidebar-footer">
+        <p>&copy; Manuel Quijada
+                  Zeus Comparaz
+                  Elian Jaén
+                  Eric Fernández
+                  Joshua Batista
+</p>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="main-header">
+        <div class="header-left">
+          <span class="page-title">Calculadora de Métodos de Transporte</span>
+        </div>
+        <div class="header-right">
+          <button class="btn-connect-wallet"><i class="fas fa-wallet"></i> <span>Conectar Wallet</span></button>
+          <div class="user-profile"><i class="fas fa-user-circle"></i></div>
+        </div>
+      </header>
+
+      <div class="content-area">
+        
+        <div class="card problem-config">
+          <div class="card-header">
+            <h3><i class="fas fa-sliders-h"></i> Configuración del Problema</h3>
+          </div>
+          <div class="card-body">
+            <div class="input-grid">
+              <div class="input-group">
+                <label for="numOrigens"><i class="fas fa-industry"></i> Orígenes</label>
+                <input type="number" id="numOrigens" value="3" min="1" max="10">
+              </div>
+              <div class="input-group">
+                <label for="numDestinos"><i class="fas fa-warehouse"></i> Destinos</label>
+                <input type="number" id="numDestinos" value="3" min="1" max="10">
+              </div>
+              <div class="input-group">
+                <label for="metodoSeleccion"><i class="fas fa-cogs"></i> Método</label>
+                <select id="metodoSeleccion">
+                  <option value="noroeste">Esquina Noroeste</option>
+                  <option value="costominimo">Costo Mínimo</option>
+                  <option value="vogel">Aproximación de Vogel</option>
+                  <option value="modi">Método MODI (Óptimo)</option>
+                  <option value="comparar">Comparar todos</option>
+                  <option value="hungaro">Método Húngaro</option>
+                </select>
+              </div>
+            </div>
+            
+            <div class="tab-controls">
+              <button class="tab-btn active" id="tabManual" onclick="toggleTab('manual')">
+                <i class="fas fa-edit"></i> Manual
+              </button>
+              <button class="tab-btn" id="tabAutomatico" onclick="toggleTab('automatico')">
+                <i class="fas fa-magic"></i> Automático
+              </button>
+            </div>
+            
+            <div id="panelManual" class="tab-panel active">
+              <div class="action-buttons">
+                <button class="btn btn-primary" onclick="generarTabla()">
+                  <i class="fas fa-table"></i> Generar Tabla
+                </button>
+              </div>
+              
+              <form id="dataForm">
+                <div id="tablaContenedor" class="table-container"></div>
+              </form>
+            </div>
+            
+            <div id="panelAutomatico" class="tab-panel">
+              <div class="input-grid">
+                <div class="input-group">
+                  <label for="rangoMin"><i class="fas fa-arrow-down"></i> Costo Mínimo</label>
+                  <input type="number" id="rangoMin" value="1" min="0">
+                </div>
+                <div class="input-group">
+                  <label for="rangoMax"><i class="fas fa-arrow-up"></i> Costo Máximo</label>
+                  <input type="number" id="rangoMax" value="10" min="1">
+                </div>
+                <div class="input-group">
+                  <label for="ofertaTotal"><i class="fas fa-box-open"></i> Oferta Total</label>
+                  <input type="number" id="ofertaTotal" value="100" min="1">
+                </div>
+                <div class="input-group">
+                  <label for="demandaTotal"><i class="fas fa-shopping-cart"></i> Demanda Total</label>
+                  <input type="number" id="demandaTotal" value="100" min="1">
+                </div>
+              </div>
+              
+              <div class="action-buttons">
+                <button class="btn btn-primary" onclick="generarProblemaAleatorio()">
+                  <i class="fas fa-dice"></i> Generar Problema
+                </button>
+              </div>
+            </div>
+            
+            <div class="action-buttons mt-large">
+              <button class="btn btn-solve" onclick="resolver()">
+                <i class="fas fa-play"></i> Resolver
+              </button>
+              <button class="btn btn-secondary" onclick="limpiarTodo()">
+                <i class="fas fa-broom"></i> Limpiar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        
+        <div class="results-grid">
+            <div id="esquemaProblema" class="card">
+                <div class="card-header">
+                  <h3><i class="fas fa-project-diagram"></i> Esquema del Problema</h3>
+                </div>
+                <div class="card-body">
+                  <p class="placeholder-text">El esquema se mostrará aquí.</p>
+                </div>
+              </div>
+          
+              <div id="diagramaGrafico" class="card">
+                <div class="card-header">
+                  <h3><i class="fas fa-network-wired"></i> Diagrama de Transporte</h3>
+                </div>
+                <div class="card-body">
+                  <p class="placeholder-text">El diagrama se mostrará aquí.</p>
+                </div>
+              </div>
+
+              <div id="output" class="card full-width">
+                <div class="card-header">
+                  <h3><i class="fas fa-chart-bar"></i> Resultados</h3>
+                </div>
+                <div class="card-body">
+                  <p class="placeholder-text">Los resultados se mostrarán aquí.</p>
+                </div>
+              </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="transporte.js"></script>
+</body>
+</html>
